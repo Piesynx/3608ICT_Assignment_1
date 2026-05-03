@@ -1,0 +1,85 @@
+%--------------------------------------------------------------------------
+% File     : MGT016+1 : TPTP v9.2.1. Released v2.0.0.
+% Domain   : Management (Organisation Theory)
+% Problem  : More complex organizations have shorter reorganization
+% Version  : [PB+94] axioms.
+% English  : The more complex an organization is at the beginning of
+%            reorganization, the sooner disbanding due to reorganization
+%            (possibly) happens - i.e., the shorter is the reorganization.
+
+% Refs     : [PB+94] Peli et al. (1994), A Logical Approach to Formalizing
+%          : [Kam94] Kamps (1994), Email to G. Sutcliffe
+%          : [Kam95] Kamps (1995), Email to G. Sutcliffe
+% Source   : [Kam94]
+% Names    :
+
+% Status   : Theorem
+% Rating   : 0.10 v9.1.0, 0.00 v7.5.0, 0.05 v7.4.0, 0.00 v7.0.0, 0.07 v6.4.0, 0.00 v6.1.0, 0.08 v6.0.0, 0.50 v5.5.0, 0.12 v5.4.0, 0.13 v5.3.0, 0.22 v5.2.0, 0.00 v5.0.0, 0.05 v4.1.0, 0.06 v4.0.1, 0.05 v3.7.0, 0.00 v3.2.0, 0.11 v3.1.0, 0.00 v2.1.0
+% Syntax   : Number of formulae    :    4 (   0 unt;   0 def)
+%            Number of atoms       :   38 (   0 equ)
+%            Maximal formula atoms :   13 (   9 avg)
+%            Number of connectives :   36 (   2   ~;   0   |;  30   &)
+%                                         (   0 <=>;   4  =>;   0  <=;   0 <~>)
+%            Maximal formula depth :   22 (  17 avg)
+%            Maximal term depth    :    1 (   1 avg)
+%            Number of predicates  :    7 (   7 usr;   0 prp; 2-3 aty)
+%            Number of functors    :    0 (   0 usr;   0 con; --- aty)
+%            Number of variables   :   30 (  29   !;   1   ?)
+% SPC      : FOF_THM_RFO_NEQ
+
+% Comments : "Not published due to publication constraints." [Kam95].
+%--------------------------------------------------------------------------
+fof(mp5,axiom,
+    ! [X,T] :
+      ( organization(X,T)
+     => ? [I] : inertia(X,I,T) ) ).
+
+fof(a12_FOL,hypothesis,
+    ! [X,Y,C,C1,C2,I1,I2,T1,T2] :
+      ( ( organization(X,T1)
+        & organization(Y,T2)
+        & class(X,C,T1)
+        & class(Y,C,T2)
+        & complexity(X,C1,T1)
+        & complexity(Y,C2,T2)
+        & inertia(X,I1,T1)
+        & inertia(Y,I2,T2)
+        & greater(C2,C1) )
+     => greater(I2,I1) ) ).
+
+%----The higher inertia an organization has at the beginning of
+%----reorganization, the sooner disbending due to reorganization
+%----(possibly) happens - i.e., the shorter is the reorganization.
+fof(a14_FOL,hypothesis,
+    ! [X,Y,Rt,C,I1,I2,Ta,Tb,Tc] :
+      ( ( organization(X,Ta)
+        & organization(Y,Ta)
+        & ~ organization(Y,Tc)
+        & class(X,C,Ta)
+        & class(Y,C,Ta)
+        & reorganization(X,Ta,Tb)
+        & reorganization(Y,Ta,Tc)
+        & reorganization_type(X,Rt,Ta)
+        & reorganization_type(Y,Rt,Ta)
+        & inertia(X,I1,Ta)
+        & inertia(Y,I2,Ta)
+        & greater(I2,I1) )
+     => greater(Tb,Tc) ) ).
+
+fof(t16_FOL,conjecture,
+    ! [X,Y,Rt,C,C1,C2,Ta,Tb,Tc] :
+      ( ( organization(X,Ta)
+        & organization(Y,Ta)
+        & ~ organization(Y,Tc)
+        & class(X,C,Ta)
+        & class(Y,C,Ta)
+        & reorganization(X,Ta,Tb)
+        & reorganization(Y,Ta,Tc)
+        & reorganization_type(X,Rt,Ta)
+        & reorganization_type(Y,Rt,Ta)
+        & complexity(X,C1,Ta)
+        & complexity(Y,C2,Ta)
+        & greater(C2,C1) )
+     => greater(Tb,Tc) ) ).
+
+%--------------------------------------------------------------------------
